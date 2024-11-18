@@ -9,7 +9,7 @@ module com.example.manic_time {
     requires net.synedra.validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
+    //requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
     opens com.example.manic_time to javafx.fxml;
