@@ -1,0 +1,9 @@
+.hbox-menu-item {
+    -fx-background-color: transparent; /* Couleur par défaut */
+    -fx-padding: 10; /* Ajoute de l'espace intérieur */
+    -fx-cursor: hand; /* Change le curseur en pointeur */
+}
+
+.hbox-menu-item:hover {
+    -fx-background-color: #005f73; /* Couleur quand la souris passe */
+}
