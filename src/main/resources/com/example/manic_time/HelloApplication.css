@@ -1,9 +1,14 @@
 .hbox-menu-item {
-    -fx-background-color: transparent; /* Couleur par défaut */
-    -fx-padding: 10; /* Ajoute de l'espace intérieur */
-    -fx-cursor: hand; /* Change le curseur en pointeur */
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+    -fx-cursor: hand;
 }
 
 .hbox-menu-item:hover {
-    -fx-background-color: #005f73; /* Couleur quand la souris passe */
+    -fx-background-color: #005f73;
+}
+
+.date-cell-task {
+    -fx-background-color: #005f73;
+    -fx-text-fill: white;
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manic_time.HelloController">
+    <children>
+        <StackPane fx:id="mainStackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <BorderPane fx:id="mainPane" prefHeight="200.0" prefWidth="200.0">
+                <center>
+                    <VBox alignment="CENTER" spacing="20" style="-fx-background-color: #DFF2FF;">
+                        <VBox alignment="CENTER" prefWidth="300" spacing="10">
+                            <Label text="Choose a date:">
+                                <font>
+                                    <Font name="System Bold Italic" size="18.0" />
+                                </font>
+                            </Label>
+                            <DatePicker fx:id="datePicker" prefHeight="34.0" prefWidth="200.0" />
+                            <Label text="Enter your task:">
+                                <font>
+                                    <Font name="System Bold" size="12.0" />
+                                </font>
+                            </Label>
+                            <TextField fx:id="taskField" promptText="Enter task here" />
+                            <Button onAction="#onAddTaskClick" prefHeight="35.0" prefWidth="86.0" style="-fx-background-color: #22427C;" text="Add Task" textFill="WHITE">
+                                <font>
+                                    <Font name="System Bold Italic" size="12.0" />
+                                </font>
+                            </Button>
+                        </VBox>
+
+                        <ListView fx:id="tasksListView" prefHeight="200" prefWidth="400">
+                            <items>
+                                <!-- List items will be populated dynamically -->
+                            </items>
+                        </ListView>
+
+                        <!-- Task control buttons -->
+                        <HBox alignment="CENTER" spacing="10">
+                            <Button onAction="#onModifyTaskClick" text="Modify" />
+                            <Button onAction="#onDeleteTaskClick" text="Delete" />
+                            <Button onAction="#onMarkAsCompleteClick" style="-fx-background-color: green;" text="Complete" />
+                            <Button onAction="#onMarkAsIncompleteClick" style="-fx-background-color: red;" text="Incomplete" />
+                        </HBox>
+                    </VBox>
+                </center>
+            </BorderPane>
+        </StackPane>
+    </children>
+</AnchorPane>
