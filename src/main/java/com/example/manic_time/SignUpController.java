@@ -14,25 +14,25 @@ import java.sql.SQLException;
 public class SignUpController {
 
     @FXML
-    private TextField fullNameField;
+    protected TextField fullNameField;
 
     @FXML
-    private TextField emailField;
+    protected TextField emailField;
 
     @FXML
-    private PasswordField passwordField;
+    protected PasswordField passwordField;
 
     @FXML
-    private PasswordField confirmPasswordField;
+    protected PasswordField confirmPasswordField;
 
     @FXML
-    private Label messageLabel;
+    protected Label messageLabel;
 
     @FXML
     private Hyperlink loginLink;
 
     @FXML
-    private void handleLoginLink() {
+    protected void handleLoginLink() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("login-view.fxml"));
             Parent loginView = loader.load();
@@ -46,7 +46,7 @@ public class SignUpController {
     }
 
     @FXML
-    private void handleSignUp() {
+    protected void handleSignUp() {
         String fullName = fullNameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
@@ -67,7 +67,7 @@ public class SignUpController {
         }
     }
 
-    private boolean addUser(String fullName, String email, String password) {
+    protected boolean addUser(String fullName, String email, String password) {
         String query = "INSERT INTO utilisateur (nom, email, motDePass) VALUES (?, ?, ?)";
 
         try (Connection connection = db.connect();

@@ -5,14 +5,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class db {
+
+    protected void loadDriver() throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+    }
+
     public static Connection connect() {
+        db database = new db();
         Connection connection = null;
         try {
             // Charger le driver JDBC pour MySQL
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            database.loadDriver();
 
             // Connexion à la base de données MySQL
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/manic", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/manic1", "root", "");
 
             // Vérifier si la connexion est valide
             if (connection != null && connection.isValid(2)) {

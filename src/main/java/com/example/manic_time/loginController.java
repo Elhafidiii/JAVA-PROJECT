@@ -19,19 +19,19 @@ import java.sql.SQLException;
 public class loginController {
 
     @FXML
-    private TextField emailField;
+    protected TextField emailField;
 
     @FXML
-    private PasswordField passwordField;
+    protected PasswordField passwordField;
 
     @FXML
-    private Label messageLabel;
+    protected Label messageLabel;
 
     @FXML
-    private Hyperlink signUpLink;
+    protected Hyperlink signUpLink;
 
     @FXML
-    private void handleLogin() {
+    void handleLogin() {
         String email = emailField.getText();
         String password = passwordField.getText();
 
@@ -60,7 +60,7 @@ public class loginController {
         }
     }
 
-    private boolean authenticateUser(String email, String password) {
+    boolean authenticateUser(String email, String password) {
         String query = "SELECT * FROM utilisateur WHERE email = ? AND motDePass = ?";
 
         try (Connection connection = db.connect();
