@@ -14,8 +14,7 @@ public class DashController {
 
     @FXML
     private ListView<tachesController.Task> todayTasksListView;
-    @FXML
-    private DatePicker datePicker_TM;
+
     @FXML
     private TableView<ApplicationUsage> applicationsTable;
     @FXML
@@ -34,9 +33,19 @@ public class DashController {
         todayTasksListView.setCellFactory(param -> new TaskCell());
         loadTodayTasks();
 
-        // Initialisation des applications
+
+        // Charger les données du jour par défaut
+        LocalDate today = LocalDate.now();
+        ObservableList<ApplicationUsage> data = fetchDataFromDatabase(LocalDate.now());
+        applicationsTable.setItems(data);
+
+        // Configurer les colonnes du tableau
         appColumn.setCellValueFactory(new PropertyValueFactory<>("application"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+
+        // Mettre à jour le total du temps
+        long totalTimeInSeconds = calculateTotalTime(data);
+        totalTimeLabel.setText("Temps total : " + formatDuration(totalTimeInSeconds));
 
     }
 
@@ -52,25 +61,13 @@ public class DashController {
     }
 
     @FXML
-    private void handleShowApplications() {
-        LocalDate selectedDate = datePicker_TM.getValue();
-        if (selectedDate == null) {
-            System.out.println("Veuillez sélectionner une date.");
-            return;
-        }
 
-        ObservableList<ApplicationUsage> data = fetchDataFromDatabase(selectedDate);
-        applicationsTable.setItems(data);
-
-        long totalTimeInSeconds = calculateTotalTime(data);
-        totalTimeLabel.setText("Temps total : " + formatDuration(totalTimeInSeconds));
-    }
 
     private ObservableList<ApplicationUsage> fetchDataFromDatabase(LocalDate date) {
         ObservableList<ApplicationUsage> data = FXCollections.observableArrayList();
 
         String query = "SELECT nom_application, duree_utilisation FROM UtilisationApplication WHERE date_utilisation = ?";
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/manic", "root", "");
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setDate(1, Date.valueOf(date));

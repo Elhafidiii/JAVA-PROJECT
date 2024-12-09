@@ -53,7 +53,7 @@ public class AppController {
         ObservableList<ApplicationUsage> data = FXCollections.observableArrayList();
 
         String query = "SELECT nom_application, duree_utilisation FROM UtilisationApplication WHERE date_utilisation = ?";
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/manic", "root", "");
+        try (Connection connection = DatabaseConnection.getConnection(); // Utilisation de la classe DatabaseConnection
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setDate(1, Date.valueOf(date));
@@ -62,8 +62,6 @@ public class AppController {
             while (rs.next()) {
                 String appName = rs.getString("nom_application");
                 String usageTime = rs.getString("duree_utilisation");
-
-
 
                 data.add(new ApplicationUsage(appName, usageTime));
             }
