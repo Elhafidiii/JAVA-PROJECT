@@ -18,7 +18,7 @@ public class db {
             database.loadDriver();
 
             // Connexion à la base de données MySQL
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/manic1", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/manic", "root", "");
 
             // Vérifier si la connexion est valide
             if (connection != null && connection.isValid(2)) {
