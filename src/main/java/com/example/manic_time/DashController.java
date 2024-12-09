@@ -4,11 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.control.cell.PropertyValueFactory;  // Ajoutez cette importation
+import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.ByteArrayInputStream;
+
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -25,8 +23,6 @@ public class DashController {
     @FXML
     private TableColumn<ApplicationUsage, String> timeColumn;
     @FXML
-    private TableColumn<ApplicationUsage, Image> iconColumn;
-    @FXML
     private Label totalTimeLabel;
 
     private ObservableList<tachesController.Task> todayTasks = FXCollections.observableArrayList();
@@ -41,24 +37,7 @@ public class DashController {
         // Initialisation des applications
         appColumn.setCellValueFactory(new PropertyValueFactory<>("application"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-        iconColumn.setCellValueFactory(new PropertyValueFactory<>("icon"));
 
-        iconColumn.setCellFactory(tc -> new TableCell<>() {
-            private final ImageView imageView = new ImageView();
-
-            @Override
-            protected void updateItem(Image item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setGraphic(null);
-                } else {
-                    imageView.setImage(item);
-                    imageView.setFitWidth(32);
-                    imageView.setFitHeight(32);
-                    setGraphic(imageView);
-                }
-            }
-        });
     }
 
     private void loadTodayTasks() {
@@ -90,7 +69,7 @@ public class DashController {
     private ObservableList<ApplicationUsage> fetchDataFromDatabase(LocalDate date) {
         ObservableList<ApplicationUsage> data = FXCollections.observableArrayList();
 
-        String query = "SELECT nom_application, duree_utilisation, icone FROM UtilisationApplication WHERE date_utilisation = ?";
+        String query = "SELECT nom_application, duree_utilisation FROM UtilisationApplication WHERE date_utilisation = ?";
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/manic", "root", "");
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
@@ -100,14 +79,8 @@ public class DashController {
             while (rs.next()) {
                 String appName = rs.getString("nom_application");
                 String usageTime = rs.getString("duree_utilisation");
-                byte[] iconBytes = rs.getBytes("icone");
 
-                Image icon = null;
-                if (iconBytes != null) {
-                    icon = new Image(new ByteArrayInputStream(iconBytes));
-                }
-
-                data.add(new ApplicationUsage(appName, usageTime, icon));
+                data.add(new ApplicationUsage(appName, usageTime));
             }
         } catch (SQLException e) {
             e.printStackTrace();

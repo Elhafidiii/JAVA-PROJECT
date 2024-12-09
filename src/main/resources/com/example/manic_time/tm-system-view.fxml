@@ -28,7 +28,6 @@
         <center>
             <TableView fx:id="applicationsTable" prefHeight="400.0">
                 <columns>
-                    <TableColumn fx:id="iconColumn" prefWidth="150.0" text="Icône" />
                     <TableColumn fx:id="appColumn" prefWidth="225.0" text="Nom de l'application" />
                     <TableColumn fx:id="timeColumn" prefWidth="225.0" text="Durée d'utilisation" />
                 </columns>
