@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manic_time.DashController">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manic_time.DashController">
    <children>
       <StackPane fx:id="mainStackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f5f8fa;">
@@ -18,13 +27,19 @@
                <VBox alignment="TOP_CENTER" spacing="30.0" style="-fx-padding: 20;">
                   <HBox spacing="20.0">
                   <!-- Section pour les tâches du jour -->
-                  <TitledPane collapsible="false" expanded="true" text="Today's Tasks" textFill="#0078d7">
-                     <content>
-                        <ListView fx:id="todayTasksListView" prefHeight="200" prefWidth="350.0" style="-fx-background-color: #A9EAFE;" />
-                     </content>
+                  <TitledPane collapsible="false" expanded="true" prefHeight="244.0" prefWidth="592.0" text="Today's Tasks" textFill="#0078d7">
                         <font>
                            <Font name="System Bold" size="15.0" />
                         </font>
+                        <content>
+                           <TableView fx:id="daytasktable" prefHeight="209.0" prefWidth="325.0">
+                              <columns>
+                                 <TableColumn fx:id="titleColumn" prefWidth="115.33337148030569" text="Titre" />
+                                 <TableColumn fx:id="descriptionColumn" minWidth="0.0" prefWidth="155.99994659423828" text="Description" />
+                                 <TableColumn fx:id="statusColumn" minWidth="0.0" prefWidth="52.666666666666686" text="Status" />
+                              </columns>
+                           </TableView>
+                        </content>
                   </TitledPane>
                   <!-- Section pour les applications et le temps total -->
                   <TitledPane collapsible="false" expanded="true" text="Application Usage" textFill="#0078d7">
@@ -32,8 +47,8 @@
                         <VBox spacing="10">
                            <TableView fx:id="applicationsTable" prefHeight="201.0" prefWidth="650.0">
                               <columns>
-                                 <TableColumn fx:id="appColumn" prefWidth="225.0" text="Nom de l'application" />
-                                 <TableColumn fx:id="timeColumn" prefWidth="225.0" text="Durée d'utilisation" />
+                                 <TableColumn fx:id="appColumn" prefWidth="193.33328247070312" text="Nom de l'application" />
+                                 <TableColumn fx:id="timeColumn" prefWidth="192.66670735677081" text="Durée d'utilisation" />
                               </columns>
                            </TableView>
                            <Label fx:id="totalTimeLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Temps total : 00:00:00" />

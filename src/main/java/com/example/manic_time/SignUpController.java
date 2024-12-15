@@ -70,7 +70,7 @@ public class SignUpController {
     protected boolean addUser(String fullName, String email, String password) {
         String query = "INSERT INTO utilisateur (nom, email, motDePass) VALUES (?, ?, ?)";
 
-        try (Connection connection = db.connect();
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, fullName);

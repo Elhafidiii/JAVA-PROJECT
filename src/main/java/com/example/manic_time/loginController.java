@@ -30,6 +30,8 @@ public class loginController {
     @FXML
     protected Hyperlink signUpLink;
 
+    public static int currentUserId;
+
     @FXML
     void handleLogin() {
         String email = emailField.getText();
@@ -63,14 +65,17 @@ public class loginController {
     boolean authenticateUser(String email, String password) {
         String query = "SELECT * FROM utilisateur WHERE email = ? AND motDePass = ?";
 
-        try (Connection connection = db.connect();
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, email);
             statement.setString(2, password);
 
             ResultSet resultSet = statement.executeQuery();
-            return resultSet.next(); // Retourne true si l'utilisateur est trouvé
+            if (resultSet.next()) {
+                currentUserId = resultSet.getInt("id"); // Stocke l'ID utilisateur
+                return true;
+            } // Retourne true si l'utilisateur est trouvé
 
         } catch (SQLException e) {
             e.printStackTrace();
