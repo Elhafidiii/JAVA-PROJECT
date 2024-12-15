@@ -79,11 +79,12 @@ public class DashController {
         ObservableList<Tache> data = FXCollections.observableArrayList();
 
         // Assurez-vous que le champ "dateTermine" est bien converti en date pure (sans l'heure)
-        String query = "SELECT id, titre, description, dateTermine, estTermine FROM Tache WHERE DATE(dateTermine) = DATE(?)";
+        String query = "SELECT id, titre, description, dateTermine, estTermine FROM Tache WHERE DATE(dateTermine) = DATE(?) AND utilisateur_id = ?";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setDate(1, Date.valueOf(date)); // Passer la date actuelle
+            stmt.setInt(2, loginController.currentUserId);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
