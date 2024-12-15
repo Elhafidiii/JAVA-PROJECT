@@ -3,12 +3,14 @@ package com.example.manic_time;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DashController {
 
@@ -17,12 +19,24 @@ public class DashController {
 
     @FXML
     private TableView<ApplicationUsage> applicationsTable;
+
     @FXML
     private TableColumn<ApplicationUsage, String> appColumn;
+
     @FXML
     private TableColumn<ApplicationUsage, String> timeColumn;
+
     @FXML
     private Label totalTimeLabel;
+
+    @FXML
+    private BarChart<String, Number> weeklyUsageChart;
+
+    @FXML
+    private CategoryAxis dayAxis;
+
+    @FXML
+    private NumberAxis timeAxis;
 
     private ObservableList<tachesController.Task> todayTasks = FXCollections.observableArrayList();
     private tachesController tachesCtrl = new tachesController(); // Instance pour accéder aux tâches
@@ -33,10 +47,9 @@ public class DashController {
         todayTasksListView.setCellFactory(param -> new TaskCell());
         loadTodayTasks();
 
-
         // Charger les données du jour par défaut
         LocalDate today = LocalDate.now();
-        ObservableList<ApplicationUsage> data = fetchDataFromDatabase(LocalDate.now());
+        ObservableList<ApplicationUsage> data = fetchDataFromDatabase(today);
         applicationsTable.setItems(data);
 
         // Configurer les colonnes du tableau
@@ -47,6 +60,8 @@ public class DashController {
         long totalTimeInSeconds = calculateTotalTime(data);
         totalTimeLabel.setText("Temps total : " + formatDuration(totalTimeInSeconds));
 
+        // Charger les données hebdomadaires
+        loadWeeklyUsageChart();
     }
 
     private void loadTodayTasks() {
@@ -59,9 +74,6 @@ public class DashController {
                         .toList()
         );
     }
-
-    @FXML
-
 
     private ObservableList<ApplicationUsage> fetchDataFromDatabase(LocalDate date) {
         ObservableList<ApplicationUsage> data = FXCollections.observableArrayList();
@@ -106,6 +118,55 @@ public class DashController {
         long minutes = (totalSeconds % 3600) / 60;
         long seconds = totalSeconds % 60;
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
+
+    private void loadWeeklyUsageChart() {
+        weeklyUsageChart.getData().clear(); // Réinitialiser le graphique
+
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(java.time.DayOfWeek.MONDAY);
+
+        Map<String, Long> dailyUsage = fetchWeeklyData(startOfWeek);
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Weekly Usage (hours)");
+
+        for (int i = 0; i < 7; i++) {
+            LocalDate currentDate = startOfWeek.plusDays(i);
+            String dayName = currentDate.getDayOfWeek().toString();
+            long usageInSeconds = dailyUsage.getOrDefault(dayName, 0L);
+            double usageInHours = usageInSeconds / 3600.0;
+
+            series.getData().add(new XYChart.Data<>(dayName, usageInHours));
+        }
+
+        weeklyUsageChart.getData().add(series);
+    }
+
+    private Map<String, Long> fetchWeeklyData(LocalDate startOfWeek) {
+        Map<String, Long> usageMap = new HashMap<>();
+
+        String query = "SELECT date_utilisation, SUM(TIME_TO_SEC(duree_utilisation)) AS total_usage " +
+                "FROM UtilisationApplication " +
+                "WHERE date_utilisation BETWEEN ? AND ? " +
+                "GROUP BY date_utilisation";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setDate(1, Date.valueOf(startOfWeek));
+            stmt.setDate(2, Date.valueOf(startOfWeek.plusDays(6)));
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                LocalDate date = rs.getDate("date_utilisation").toLocalDate();
+                long totalUsage = rs.getLong("total_usage");
+                usageMap.put(date.getDayOfWeek().toString(), totalUsage);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return usageMap;
     }
 
     private static class TaskCell extends ListCell<tachesController.Task> {

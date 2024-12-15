@@ -40,7 +40,7 @@
                 <!-- Menu principal -->
                 <HBox prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
-                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateY="5.0">
                       <image>
                         <Image url="@../../../icons/icons8-control-panel-40.png" />
                       </image>
@@ -62,7 +62,7 @@
 
                 <HBox prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
-                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateY="5.0">
                       <image>
                         <Image url="@../../../icons/icons8-task-management-64.png" />
                       </image>
@@ -80,7 +80,7 @@
 
                 <HBox prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
-                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateY="5.0">
                       <image>
                         <Image url="@../../../icons/icons8-passé-64.png" />
                       </image>
@@ -98,12 +98,12 @@
 
                 <HBox prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
-                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateY="5.0">
                       <image>
                         <Image url="@../../../icons/icons8-reporting-64.png" />
                       </image>
                     </ImageView>
-                    <Button alignment="CENTER" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: none;" text="Analytics" textFill="WHITE">
+                    <Button fx:id="Analytics" alignment="CENTER" onAction="#onAnalyticsClick" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: none;" text="Analytics" textFill="WHITE">
                       <font>
                         <Font name="System Bold" size="16.0" />
                       </font>
@@ -116,7 +116,7 @@
 
                 <HBox prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
-                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateY="5.0">
                       <image>
                         <Image url="@../../../icons/icons8-limit-64.png" />
                       </image>
@@ -141,7 +141,7 @@
                 <!-- Options -->
                 <HBox prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
-                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateY="5.0">
                       <image>
                         <Image url="@../../../icons/icons8-option-64.png" />
                       </image>
@@ -160,7 +160,7 @@
                 <!-- Close -->
                 <HBox prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
-                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateY="5.0">
                       <image>
                         <Image url="@../../../icons/icons8-effacer-120.png" />
                       </image>

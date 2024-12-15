@@ -80,6 +80,20 @@ public class HelloController {
         }
     }
 
+    @FXML
+    protected void onAnalyticsClick() {
+        try {
+            // Charger la vue TM System
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Analytics.fxml"));
+            Parent Analytics = loader.load();
+
+            // Remplacer le contenu central
+            mainPane.setCenter(Analytics);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors du chargement de Analytics.");
+        }
+    }
 }
 
 
