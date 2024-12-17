@@ -10,6 +10,16 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
+import java.io.IOException;
+
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -94,6 +104,46 @@ public class HelloController {
             System.err.println("Erreur lors du chargement de Analytics.");
         }
     }
+
+    // Méthode pour fermer l'application
+    @FXML
+    private void onCloseClick() {
+        // Ferme l'application
+        Platform.exit();
+    }
+
+    @FXML
+    private Button btnDashboard;
+
+
+    // Méthode pour déconnecter l'utilisateur et afficher la page de connexion
+
+    @FXML
+    private void onLogOutClick() {
+        try {
+            // Charger la scène de connexion depuis le bon chemin
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/manic_time/Login-view.fxml"));
+            Scene loginScene = new Scene(loader.load(), 1000, 700); // Taille de la scène (1000x700)
+
+            // Obtenir le stage actuel
+            Stage currentStage = (Stage) btnDashboard.getScene().getWindow();
+
+            // Changer de scène et définir le titre
+            currentStage.setScene(loginScene);
+            currentStage.setTitle("MANICTIME");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Afficher une alerte en cas d'erreur
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Erreur de chargement");
+            alert.setHeaderText("Erreur de chargement de la page de connexion");
+            alert.showAndWait();
+        }
+    }
+
+
+
 }
 
 

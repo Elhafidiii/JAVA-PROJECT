@@ -13,9 +13,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
-
+import javafx.scene.input.MouseEvent;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -155,13 +154,20 @@ public class AnalyticsController {
 
         // Ajouter un événement de clic sur chaque barre du graphique
         for (XYChart.Data<String, Number> data : seriesBar.getData()) {
-            data.getNode().setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    String day = data.getXValue();
-                    long usageInSeconds = dailyUsage.getOrDefault(day, 0L);
-                    showUsageDetails(day, usageInSeconds);
-                }
+            data.getNode().setOnMouseClicked(event -> {
+                String day = data.getXValue();
+                long usageInSeconds = dailyUsage.getOrDefault(day, 0L);
+                long hours = usageInSeconds / 3600;
+                long minutes = (usageInSeconds % 3600) / 60;
+
+                // Afficher les détails d'utilisation dans un message
+                String message = String.format("Le temps d'utilisation pour %s est de : %d heures et %d minutes.", day, hours, minutes);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Détails de l'utilisation");
+                alert.setHeaderText("Temps d'utilisation de " + day);
+                alert.setContentText(message);
+                alert.showAndWait();
             });
         }
     }
@@ -201,19 +207,6 @@ public class AnalyticsController {
         }
 
         return usageMap;
-    }
-
-    private void showUsageDetails(String day, long usageInSeconds) {
-        long hours = usageInSeconds / 3600;
-        long minutes = (usageInSeconds % 3600) / 60;
-
-        String message = String.format("Le temps d'utilisation pour %s est de : %d heures et %d minutes.", day, hours, minutes);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Détails de l'utilisation");
-        alert.setHeaderText("Temps d'utilisation de " + day);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     private void showErrorAlert(String message) {

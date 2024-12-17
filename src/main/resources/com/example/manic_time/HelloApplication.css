@@ -2,13 +2,32 @@
     -fx-background-color: transparent;
     -fx-padding: 10;
     -fx-cursor: hand;
+    -fx-border-radius: 5px;
 }
 
 .hbox-menu-item:hover {
-    -fx-background-color: #005f73;
+    -fx-background-color:  #005A9E; /* Couleur de survol douce */
+    -fx-text-fill: #4a90e2; /* Accent sur le texte avec un bleu élégant */
 }
 
 .date-cell-task {
-    -fx-background-color: #005f73;
+    -fx-background-color: #006d77; /* Bleu plus profond pour un contraste plus marqué */
     -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
+    -fx-border-radius: 3px; /* Arrondir les bords pour un look plus moderne */
+}
+
+.hbox-menu-item .button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #0077b6; /* Une couleur bleu claire pour un bon contraste */
+    -fx-font-size: 16px;
+    -fx-font-family: 'Roboto Bold';
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 3px;
+}
+
+.hbox-menu-item .button:hover {
+    -fx-background-color: #0077b6; /* Un fond bleu clair lors du survol */
+    -fx-text-fill: white; /* Texte blanc lors du survol pour plus de visibilité */
 }

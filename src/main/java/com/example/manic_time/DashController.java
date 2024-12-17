@@ -44,6 +44,8 @@ public class DashController {
     @FXML
     private NumberAxis timeAxis;
 
+
+
     public void initialize() {
         // Charger les données des tâches du jour
         LocalDate today = LocalDate.now();

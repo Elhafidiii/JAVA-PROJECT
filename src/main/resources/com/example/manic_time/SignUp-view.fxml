@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="809.0" prefWidth="1080.0" spacing="20.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manic_time.SignUpController">
+<VBox alignment="CENTER" prefHeight="809.0" prefWidth="1080.0" spacing="20.0" style="-fx-background-color: fff;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manic_time.SignUpController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-    <StackPane prefHeight="825.0" prefWidth="1040.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 90%, #f4f4f4, #c6d0e1);">
+    <StackPane prefHeight="825.0" prefWidth="1040.0" style="-fx-background-color: ffff;">
         <children>
             <GridPane layoutX="65.0" prefHeight="738.0" prefWidth="904.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 0); -fx-background-radius: 15;">
                 <columnConstraints>

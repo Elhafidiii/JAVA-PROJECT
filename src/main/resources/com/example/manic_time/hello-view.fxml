@@ -1,50 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manic_time.HelloController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manic_time.HelloController">
   <children>
     <BorderPane fx:id="mainPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <top>
-        <AnchorPane prefHeight="65.0" prefWidth="200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-          <children>
-            <HBox prefHeight="65.0" prefWidth="178.0" style="-fx-background-color: #0A4957;" AnchorPane.topAnchor="0.0">
-              <children>
-                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                    <Image url="@../../../icons/WhatsApp_Image_2024-11-23_at_18.21.51_f6de1cc7-removebg-preview.png" />
-                  </image>
-                </ImageView>
-                <Label text=" MANICTIME" textFill="#fffefe">
-                  <font>
-                    <Font name="System Bold" size="22.0" />
-                  </font>
-                </Label>
-              </children>
-              <padding>
-                <Insets left="8.0" top="15.0" />
-              </padding></HBox>
-          </children>
-        </AnchorPane>
-      </top>
+
       <left>
-        <AnchorPane prefHeight="362.0" prefWidth="178.0" style="-fx-background-color:linear-gradient(to bottom right, #0A4957,#28966c);" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="362.0" prefWidth="178.0" style="-fx-background-color: #4a90e2;" BorderPane.alignment="CENTER">
           <children>
-            <Separator prefWidth="178.0" />
-            <VBox layoutY="21.0" prefHeight="437.0" prefWidth="178.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+            <VBox layoutY="21.0" prefWidth="178.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
               <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="178.0" style="-fx-background-color: transparent;">
+                  <children>
+                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                      <image>
+                        <Image url="@../../../icons/WhatsApp_Image_2024-11-23_at_18.21.51_f6de1cc7-removebg-preview.png" />
+                      </image>
+                    </ImageView>
+                    <Label text="MANICTIME" textFill="#ffffff">
+                      <font>
+                        <Font name="Roboto Bold" size="22.0" />
+                      </font>
+                    </Label>
+                  </children>
+                  <padding>
+                    <Insets left="8.0" />
+                  </padding>
+                </HBox>
                 <!-- Menu principal -->
                 <HBox onMouseClicked="#onDashboardClick" prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
@@ -53,21 +40,15 @@
                         <Image url="@../../../icons/icons8-control-panel-40.png" />
                       </image>
                     </ImageView>
-                    <Button fx:id="btnDashboard" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onDashboardClick" prefHeight="45.0" prefWidth="168.0" style="-fx-background-color: none;" text="Dashboard" textFill="WHITE">
-                      <font>
-                        <Font name="System Bold" size="16.0" />
-                      </font>
-                    </Button>
+                    <Button fx:id="btnDashboard" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onDashboardClick" prefHeight="45.0" prefWidth="168.0" style="-fx-background-color: transparent; -fx-font-family: 'Roboto Bold'; -fx-font-size: 16; -fx-text-fill: #ffffff;" text="Dashboard" translateY="-3.0" />
                   </children>
                   <padding>
                     <Insets top="5.0" />
                   </padding>
                 </HBox>
-                <Region VBox.vgrow="ALWAYS" />
+                <Separator prefWidth="200.0" style="-fx-background-color: #ffffff;" />
 
-                <Separator prefWidth="176.0" translateY="10.0" />
-                <Region VBox.vgrow="ALWAYS" />
-
+                <!-- TM System -->
                 <HBox onMouseClicked="#onTMSystemClick" prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
                     <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateX="9.0" translateY="5.0">
@@ -75,17 +56,14 @@
                         <Image url="@../../../icons/icons8-task-management-64.png" />
                       </image>
                     </ImageView>
-                    <Button fx:id="btnTask" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onTMSystemClick" prefHeight="105.0" prefWidth="153.0" style="-fx-background-color: none;" text="TM System" textFill="WHITE" translateY="-3.0">
-                      <font>
-                        <Font name="System Bold" size="16.0" />
-                      </font>
-                    </Button>
+                    <Button fx:id="btnTask" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onTMSystemClick" prefHeight="105.0" prefWidth="153.0" style="-fx-background-color: transparent; -fx-font-family: 'Roboto Bold'; -fx-font-size: 16; -fx-text-fill: #ffffff;" text="TM System" translateY="-3.0" />
                   </children>
                   <padding>
                     <Insets top="5.0" />
                   </padding>
                 </HBox>
 
+                <!-- Smart Timing -->
                 <HBox onMouseClicked="#onSmartClick" prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
                     <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateX="9.0" translateY="5.0">
@@ -93,17 +71,14 @@
                         <Image url="@../../../icons/icons8-passé-64.png" />
                       </image>
                     </ImageView>
-                    <Button fx:id="smart" alignment="CENTER" maxHeight="1.7976931348623157E308" onAction="#onSmartClick" prefHeight="45.0" prefWidth="223.0" style="-fx-background-color: none;" text="Smart Timing" textFill="WHITE" translateY="-3.0">
-                      <font>
-                        <Font name="System Bold" size="16.0" />
-                      </font>
-                    </Button>
+                    <Button fx:id="smart" alignment="CENTER" maxHeight="1.7976931348623157E308" onAction="#onSmartClick" prefHeight="45.0" prefWidth="223.0" style="-fx-background-color: transparent; -fx-font-family: 'Roboto Bold'; -fx-font-size: 16; -fx-text-fill: #ffffff;" text="Smart Timing" translateY="-3.0" />
                   </children>
                   <padding>
                     <Insets top="5.0" />
                   </padding>
                 </HBox>
 
+                <!-- Analytics -->
                 <HBox onMouseClicked="#onAnalyticsClick" prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
                     <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateX="9.0" translateY="5.0">
@@ -111,11 +86,21 @@
                         <Image url="@../../../icons/icons8-reporting-64.png" />
                       </image>
                     </ImageView>
-                    <Button fx:id="Analytics" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onAnalyticsClick" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: none;" text="Analytics" textFill="WHITE" translateY="-3.0">
-                      <font>
-                        <Font name="System Bold" size="16.0" />
-                      </font>
-                    </Button>
+                    <Button fx:id="Analytics" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onAnalyticsClick" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: transparent; -fx-font-family: 'Roboto Bold'; -fx-font-size: 16; -fx-text-fill: #ffffff;" text="Analytics" translateY="-3.0" />
+                  </children>
+                  <padding>
+                    <Insets top="5.0" />
+                  </padding>
+                </HBox>
+
+                <HBox prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
+                  <children>
+                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateX="9.0" translateY="5.0">
+                      <image>
+                        <Image url="@../../../icons/revision.png" />
+                      </image>
+                    </ImageView>
+                    <Button fx:id="Analytics" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: transparent; -fx-font-family: 'Roboto Bold'; -fx-font-size: 16; -fx-text-fill: #ffffff;" text="Promodo" translateY="-3.0" />
                   </children>
                   <padding>
                     <Insets top="5.0" />
@@ -129,60 +114,49 @@
                         <Image url="@../../../icons/icons8-limit-64.png" />
                       </image>
                     </ImageView>
-                    <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: none;" text="App limit" textFill="WHITE" translateY="-3.0">
-                      <font>
-                        <Font name="System Bold" size="16.0" />
-                      </font>
-                    </Button>
+                    <Button fx:id="Analytics" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"  prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: transparent; -fx-font-family: 'Roboto Bold'; -fx-font-size: 16; -fx-text-fill: #ffffff;" text="App Limit" translateY="-3.0" />
                   </children>
                   <padding>
                     <Insets top="5.0" />
                   </padding>
                 </HBox>
 
-                <Region VBox.vgrow="ALWAYS" />
-                <Separator prefWidth="176.0" />
+                <Separator prefWidth="200.0" style="-fx-background-color: #ffffff;" />
 
-                <!-- Région flexible -->
-                <Region VBox.vgrow="ALWAYS" />
-
-                <!-- Options -->
+                <!-- Bouton Log Out -->
                 <HBox prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
                     <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateX="9.0" translateY="5.0">
                       <image>
-                        <Image url="@../../../icons/icons8-option-64.png" />
+                        <Image url="@../../../icons/se-deconnecter.png" />
                       </image>
                     </ImageView>
-                    <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: none;" text="Options" textFill="WHITE" translateY="-3.0">
-                      <font>
-                        <Font name="System Bold" size="16.0" />
-                      </font>
-                    </Button>
+                    <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: transparent; -fx-font-family: 'Roboto Bold'; -fx-font-size: 16; -fx-text-fill: #ffffff;" text="Log Out" translateY="-3.0" onAction="#onLogOutClick"/>
                   </children>
                   <padding>
                     <Insets top="5.0" />
                   </padding>
                 </HBox>
 
-                <!-- Close -->
+
+
+                <!-- Bouton Close -->
                 <HBox prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
-                    <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateX="9.0" translateY="7.0">
+                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateX="9.0" translateY="5.0">
                       <image>
                         <Image url="@../../../icons/icons8-effacer-120.png" />
                       </image>
                     </ImageView>
-                    <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: none;" text="Close" textFill="WHITE" translateY="-3.0">
-                      <font>
-                        <Font name="System Bold" size="16.0" />
-                      </font>
-                    </Button>
+                    <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: transparent; -fx-font-family: 'Roboto Bold'; -fx-font-size: 16; -fx-text-fill: #ffffff;" text="Close" translateY="-3.0" onAction="#onCloseClick"/>
                   </children>
                   <padding>
                     <Insets top="5.0" />
                   </padding>
                 </HBox>
+
+
+
               </children>
             </VBox>
           </children>
@@ -193,15 +167,10 @@
       <center>
         <AnchorPane prefWidth="600.0">
           <children>
-            <Label fx:id="centerLabel" text="Welcome to the Dashboard" />
+            <Label fx:id="centerLabel" style="-fx-font-family: 'Roboto Bold'; -fx-font-size: 24px; -fx-text-fill: #4a90e2;" text="Welcome to the Dashboard" />
           </children>
         </AnchorPane>
       </center>
-
-
-
     </BorderPane>
-
-
   </children>
 </StackPane>

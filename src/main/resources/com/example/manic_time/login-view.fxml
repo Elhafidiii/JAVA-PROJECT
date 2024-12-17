@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="809.0" prefWidth="1080.0" spacing="20.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manic_time.loginController">
+<VBox alignment="CENTER" prefHeight="809.0" prefWidth="1080.0" spacing="20.0" style="-fx-background-color: ffff;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manic_time.loginController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-    <StackPane prefHeight="825.0" prefWidth="1040.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 90%, #f4f4f4, #c6d0e1);">
+    <StackPane prefHeight="825.0" prefWidth="1040.0" style="-fx-background-color: ffffff;">
         <children>
             <GridPane layoutX="65.0" prefHeight="738.0" prefWidth="904.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 0); -fx-background-radius: 15;">
                 <columnConstraints>
@@ -25,6 +25,7 @@
                     <RowConstraints maxHeight="185.0" minHeight="0.0" prefHeight="185.0" valignment="CENTER" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <children>
+                    <!-- Logo et texte de bienvenue -->
                     <GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="116.0" prefWidth="547.0">
                         <columnConstraints>
                             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="360.0" minWidth="10.0" prefWidth="277.0" />
@@ -34,6 +35,7 @@
                             <RowConstraints maxHeight="104.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
                         </rowConstraints>
                         <children>
+                     <Pane prefHeight="200.0" prefWidth="200.0" />
                             <Label fx:id="welcomeText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="104.0" prefWidth="595.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0.5, 0, 0);" text="ManicTime" textFill="#2c3e50" GridPane.columnIndex="1">
                                 <font>
                                     <Font name="Arial Black" size="48.0" />
@@ -46,21 +48,27 @@
                             </ImageView>
                         </children>
                     </GridPane>
+
+                    <!-- Message de bienvenue -->
                     <Label fx:id="messageLabel" prefHeight="23.0" prefWidth="171.0" style="-fx-text-fill: #2c3e50; -fx-font-size: 14;" GridPane.rowIndex="5" />
-                    <Label prefHeight="53.0" prefWidth="150.0" style="-fx-text-alignment: center;" text="Sign in !" textFill="#2c3e50" GridPane.rowIndex="1">
-                        <style>-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0.5, 0, 0);</style>
-                        <font>
-                            <Font name="System Bold" size="36.0" />
-                        </font>
-                    </Label>
-                    <TextField fx:id="emailField" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="250.0" promptText="Your Email" style="-fx-border-color: black; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 5;" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+
+                    <!-- Titre "Sign in" -->
+                    <Label prefHeight="53.0" prefWidth="150.0" style="-fx-text-alignment: center; -fx-font-size: 36px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0.5, 0, 0);" text="Sign in !" textFill="#2c3e50" GridPane.rowIndex="1" />
+
+                    <!-- Champ de texte pour l'email -->
+                    <TextField fx:id="emailField" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="250.0" promptText="Your Email" style="-fx-border-color: #3498db; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 10px;" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                         <GridPane.margin>
                             <Insets bottom="30.0" />
                         </GridPane.margin>
                     </TextField>
-                    <PasswordField fx:id="passwordField" maxWidth="-Infinity" prefHeight="42.0" prefWidth="250.0" promptText="Password" style="-fx-border-color: black; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 5;" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                    </PasswordField>
-                    <Button onAction="#handleLogin" prefHeight="36.0" prefWidth="113.0" styleClass="login-button" text="Login" textFill="WHITE" GridPane.rowIndex="4" GridPane.valignment="TOP" />
+
+                    <!-- Champ de texte pour le mot de passe -->
+                    <PasswordField fx:id="passwordField" maxWidth="-Infinity" prefHeight="42.0" prefWidth="250.0" promptText="Password" style="-fx-border-color: #3498db; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 10px;" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+
+                    <!-- Bouton de connexion -->
+                    <Button onAction="#handleLogin" prefHeight="36.0" prefWidth="113.0" style="-fx-background-color: #3498db; -fx-border-radius: 5px; -fx-padding: 10px 20px;" styleClass="login-button" text="Login" textFill="WHITE" GridPane.rowIndex="4" GridPane.valignment="TOP" />
+
+                    <!-- Lien pour inscription -->
                     <GridPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="206.0" GridPane.rowIndex="5" GridPane.valignment="TOP">
                         <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -70,11 +78,8 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         </rowConstraints>
                         <children>
-                            <Label prefHeight="23.0" prefWidth="104.0" style="-fx-text-fill: #2c3e50; -fx-font-size: 14;" text="Not registered ?">
-                            </Label>
-                            <Hyperlink  fx:id="signUpLink" onAction="#handleSignUpLink" style="-fx-text-fill: #32cf70; -fx-background-color: #f5f5dc; -fx-font-size: 14;" text="Sign-Up!" GridPane.columnIndex="1"  />
-
-
+                            <Label prefHeight="23.0" prefWidth="104.0" style="-fx-text-fill: #2c3e50; -fx-font-size: 14;" text="Not registered ?" />
+                            <Hyperlink fx:id="signUpLink" onAction="#handleSignUpLink" style="-fx-text-fill: #32cf70; -fx-background-color: transparent; -fx-font-size: 14px;" text="Sign-Up!" GridPane.columnIndex="1" />
                         </children>
                         <GridPane.margin>
                             <Insets left="50.0" />
