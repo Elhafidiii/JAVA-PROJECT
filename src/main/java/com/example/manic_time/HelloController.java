@@ -105,6 +105,21 @@ public class HelloController {
         }
     }
 
+    @FXML
+    protected void onAppLimitClick() {
+        try {
+            // Charger la vue TM System
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("app-limite.fxml"));
+            Parent Analytics = loader.load();
+
+            // Remplacer le contenu central
+            mainPane.setCenter(Analytics);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors du chargement de scenes.");
+        }
+    }
+
     // Méthode pour fermer l'application
     @FXML
     private void onCloseClick() {
