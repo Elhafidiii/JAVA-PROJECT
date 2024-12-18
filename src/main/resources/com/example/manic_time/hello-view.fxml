@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manic_time.HelloController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.manic_time.HelloController">
   <children>
     <BorderPane fx:id="mainPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
@@ -100,14 +93,14 @@
                   </padding>
                 </HBox>
 
-                <HBox prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
+                <HBox onMouseClicked="#onPromodoClick" prefHeight="50.0" prefWidth="200.0" styleClass="hbox-menu-item">
                   <children>
                     <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateX="9.0" translateY="5.0">
                       <image>
                         <Image url="@../../../icons/revision.png" />
                       </image>
                     </ImageView>
-                    <Button fx:id="Analytics" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: transparent; -fx-font-family: 'Roboto Bold'; -fx-font-size: 16; -fx-text-fill: #ffffff;" text="Promodo" translateY="-3.0" />
+                    <Button fx:id="Promodo" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#onPromodoClick" prefHeight="27.0" prefWidth="161.0" style="-fx-background-color: transparent; -fx-font-family: 'Roboto Bold'; -fx-font-size: 16; -fx-text-fill: #ffffff;" text="Promodo" translateY="-3.0" />
                   </children>
                   <padding>
                     <Insets top="5.0" />
@@ -174,7 +167,7 @@
       <center>
         <AnchorPane prefWidth="600.0">
           <children>
-            <Label fx:id="centerLabel" style="-fx-font-family: 'Roboto Bold'; -fx-font-size: 24px; -fx-text-fill: #4a90e2;" text="Welcome to the Dashboard" />
+            <Label fx:id="centerLabel" style="-fx-font-family: 'Roboto Bold'; -fx-font-size: 24px; -fx-text-fill: #4a90e2;" text="Welcome to Manic Time" translateX="150.0" translateY="220.0" />
           </children>
         </AnchorPane>
       </center>

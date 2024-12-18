@@ -11,6 +11,7 @@ module com.example.manic_time {
     requires org.kordamp.bootstrapfx.core;
     //requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.desktop;
 
     opens com.example.manic_time to javafx.fxml;
     exports com.example.manic_time;

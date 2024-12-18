@@ -91,6 +91,21 @@ public class HelloController {
     }
 
     @FXML
+    protected void onPromodoClick() {
+        try {
+            // Charger la vue TM System
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("focussession-view.fxml"));
+            Parent Smart = loader.load();
+
+            // Remplacer le contenu central
+            mainPane.setCenter(Smart);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors du chargement de la Smart timing.");
+        }
+    }
+
+    @FXML
     protected void onAnalyticsClick() {
         try {
             // Charger la vue TM System
