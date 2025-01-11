@@ -12,6 +12,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.shape.Arc;
 
 import java.awt.*;
 
@@ -98,6 +99,10 @@ public class FocusSessionController {
     @FXML
     private Spinner<Integer> breakTimeSpinner;
 
+    @FXML
+    private Arc timerArc;
+    @FXML
+    private Label phaseLabel;
 
     @FXML
     public void initialize() {
@@ -264,9 +269,21 @@ public class FocusSessionController {
 
 
     private void updateTimerDisplay(int remainingTime) {
+        // Mise à jour du texte du timer
         int minutes = remainingTime / 60;
         int seconds = remainingTime % 60;
         timerLabel.setText(String.format("%02d:%02d", minutes, seconds));
+        
+        // Mise à jour de l'arc de progression
+        double progress = 1 - (remainingTime / (double) phaseTime);
+        timerArc.setLength(progress * -360); // L'arc se remplit dans le sens anti-horaire
+        
+        // Mise à jour du label de phase
+        phaseLabel.setText(isFocusPhase ? "FOCUS" : "PAUSE");
+        
+        // Mise à jour de la couleur de l'arc selon la phase
+        String arcColor = isFocusPhase ? "#2ECC71" : "#F1C40F";
+        timerArc.setStyle("-fx-fill: transparent; -fx-stroke: " + arcColor + "; -fx-stroke-width: 8;");
     }
 
 

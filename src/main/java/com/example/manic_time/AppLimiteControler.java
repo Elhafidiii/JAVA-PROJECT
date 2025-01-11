@@ -6,7 +6,9 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -30,6 +32,8 @@ public class AppLimiteControler {
 
     @FXML
     private TextField minutesField;
+    @FXML
+private TableColumn<ApplicationTime, ImageView> iconColumn;
 
     @FXML
     private TableView<ApplicationTime> timeLimitsTable;
@@ -39,6 +43,22 @@ public class AppLimiteControler {
 
     @FXML
     public void initialize() {
+        // Configuration de la colonne des icônes
+        iconColumn.setCellFactory(column -> {
+            return new TableCell<ApplicationTime, ImageView>() {
+                @Override
+                protected void updateItem(ImageView item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(item);
+                    }
+                }
+            };
+        });
+        iconColumn.setCellValueFactory(cellData -> cellData.getValue().appIconProperty());
+
         // Set up the table columns
         appNameColumn.setCellValueFactory(cellData -> cellData.getValue().appNameProperty());
         timeLimitColumn.setCellValueFactory(cellData -> cellData.getValue().timeLimitProperty());
@@ -77,8 +97,6 @@ public class AppLimiteControler {
 
             if (hours < 0 || minutes < 0 || minutes >= 60) {
                 showAlert("Error", "Invalid time format. Hours must be >= 0 and minutes must be between 0 and 59.");
-                hoursField.clear();
-                minutesField.clear();
                 return;
             }
 
@@ -91,9 +109,14 @@ public class AppLimiteControler {
                 return;
             }
 
-            // Add new entry to the ObservableList
+            // Créer une nouvelle entrée avec l'icône
             ApplicationTime newEntry = new ApplicationTime(app, timeLimit, remainingTime);
-            timeLimitsTable.getItems().add(newEntry);
+            
+            // Forcer la mise à jour de l'interface
+            Platform.runLater(() -> {
+                timeLimitsTable.getItems().add(newEntry);
+                timeLimitsTable.refresh();
+            });
 
             // Set up a timer for this application
             startTimerForApp(app, hours, minutes);
@@ -101,8 +124,6 @@ public class AppLimiteControler {
             showAlert("Success", "Time limit added for " + app + ": " + timeLimit);
         } catch (NumberFormatException e) {
             showAlert("Error", "Please enter valid numeric values for hours and minutes.");
-            hoursField.clear();
-            minutesField.clear();
         }
     }
 

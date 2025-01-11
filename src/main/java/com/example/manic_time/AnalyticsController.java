@@ -147,10 +147,50 @@ public class AnalyticsController {
             seriesLine.getData().add(new XYChart.Data<>(dayName, usageInHours));
         }
 
+        // Ajouter une nouvelle série pour la moyenne
+        XYChart.Series<String, Number> averageSeries = new XYChart.Series<>();
+        averageSeries.setName("Moyenne hebdomadaire");
+
+        // Calculer la moyenne
+        double totalUsage = 0;
+        int daysWithData = 0;
+        
+        for (int i = 0; i < 7; i++) {
+            LocalDate date = startOfWeek.plus(i, ChronoUnit.DAYS);
+            String dayName = dayTranslations.getOrDefault(date.getDayOfWeek().toString(), date.getDayOfWeek().toString());
+            long usageInSeconds = dailyUsage.getOrDefault(dayName, 0L);
+            if (usageInSeconds > 0) {
+                totalUsage += usageInSeconds / 3600.0;
+                daysWithData++;
+            }
+        }
+        
+        double averageUsage = daysWithData > 0 ? totalUsage / daysWithData : 0;
+
+        // Ajouter la ligne moyenne à tous les graphiques
+        for (int i = 0; i < 7; i++) {
+            LocalDate date = startOfWeek.plus(i, ChronoUnit.DAYS);
+            String dayName = dayTranslations.getOrDefault(date.getDayOfWeek().toString(), date.getDayOfWeek().toString());
+            averageSeries.getData().add(new XYChart.Data<>(dayName, averageUsage));
+        }
+
         // Ajouter les séries aux graphiques
         usageChart.getData().add(seriesBar);
         scatterChart.getData().add(seriesScatter);
         lineChart.getData().add(seriesLine);
+
+        // Ajouter la série moyenne aux graphiques
+        usageChart.getData().add(averageSeries);
+        scatterChart.getData().add(averageSeries);
+        lineChart.getData().add(averageSeries);
+
+        // Styliser la ligne moyenne
+        averageSeries.getNode().setStyle("-fx-stroke-dash-array: 5 5;"); // Ligne pointillée
+        for (XYChart.Data<String, Number> data : averageSeries.getData()) {
+            if (data.getNode() != null) {
+                data.getNode().setStyle("-fx-background-color: red;");
+            }
+        }
 
         // Ajouter un événement de clic sur chaque barre du graphique
         for (XYChart.Data<String, Number> data : seriesBar.getData()) {
@@ -222,6 +262,13 @@ public class AnalyticsController {
         usageChart.setVisible(true);
         lineChart.setVisible(false);
         scatterChart.setVisible(false);
+        
+        // Récupérer la semaine sélectionnée
+        int selectedIndex = weekSelector.getSelectionModel().getSelectedIndex();
+        if (selectedIndex != -1) {
+            LocalDate startOfSelectedWeek = getStartOfWeek(today.minusWeeks(selectedIndex));
+            populateChart(startOfSelectedWeek);
+        }
     }
 
     @FXML
@@ -229,6 +276,13 @@ public class AnalyticsController {
         usageChart.setVisible(false);
         lineChart.setVisible(true);
         scatterChart.setVisible(false);
+        
+        // Récupérer la semaine sélectionnée
+        int selectedIndex = weekSelector.getSelectionModel().getSelectedIndex();
+        if (selectedIndex != -1) {
+            LocalDate startOfSelectedWeek = getStartOfWeek(today.minusWeeks(selectedIndex));
+            populateChart(startOfSelectedWeek);
+        }
     }
 
     @FXML
@@ -236,5 +290,12 @@ public class AnalyticsController {
         usageChart.setVisible(false);
         lineChart.setVisible(false);
         scatterChart.setVisible(true);
+        
+        // Récupérer la semaine sélectionnée
+        int selectedIndex = weekSelector.getSelectionModel().getSelectedIndex();
+        if (selectedIndex != -1) {
+            LocalDate startOfSelectedWeek = getStartOfWeek(today.minusWeeks(selectedIndex));
+            populateChart(startOfSelectedWeek);
+        }
     }
 }
