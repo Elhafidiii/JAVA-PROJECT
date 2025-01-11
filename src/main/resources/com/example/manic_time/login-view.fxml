@@ -53,7 +53,7 @@
                     <Label fx:id="messageLabel" prefHeight="23.0" prefWidth="171.0" style="-fx-text-fill: #2c3e50; -fx-font-size: 14;" GridPane.rowIndex="5" />
 
                     <!-- Titre "Sign in" -->
-                    <Label prefHeight="53.0" prefWidth="150.0" style="-fx-text-alignment: center; -fx-font-size: 36px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0.5, 0, 0);" text="Sign in !" textFill="#2c3e50" GridPane.rowIndex="1" />
+                    <Label prefHeight="53.0" prefWidth="150.0" style="-fx-text-alignment: center; -fx-font-size: 36px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0.5, 0, 0);" text="Login !" textFill="#2c3e50" GridPane.rowIndex="1" />
 
                     <!-- Champ de texte pour l'email -->
                     <TextField fx:id="emailField" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="250.0" promptText="Your Email" style="-fx-border-color: #3498db; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 10px;" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
