@@ -72,30 +72,30 @@ public class HelloController implements Initializable {
     private BorderPane mainPane; // L'élément BorderPane de votre vue principale
 
     @FXML
-    private TableView<TaskData> daytasktable;
+    TableView<TaskData> daytasktable;
     @FXML
-    private TableColumn<TaskData, String> titleColumn;
+    TableColumn<TaskData, String> titleColumn;
     @FXML
-    private TableColumn<TaskData, String> descriptionColumn;
+    TableColumn<TaskData, String> descriptionColumn;
     @FXML
-    private TableColumn<TaskData, String> statusColumn;
+    TableColumn<TaskData, String> statusColumn;
 
     @FXML
-    private TableView<AppUsageData> applicationsTable;
+    TableView<AppUsageData> applicationsTable;
     @FXML
-    private TableColumn<AppUsageData, String> appColumn;
+    TableColumn<AppUsageData, String> appColumn;
     @FXML
-    private TableColumn<AppUsageData, String> timeColumn;
+    TableColumn<AppUsageData, String> timeColumn;
 
     @FXML
-    private Label totalTimeLabel;
+    Label totalTimeLabel;
 
     @FXML
-    private BarChart<String, Number> weeklyUsageChart;
+    BarChart<String, Number> weeklyUsageChart;
     @FXML
-    private CategoryAxis weeklyChartXAxis;
+    CategoryAxis weeklyChartXAxis;
     @FXML
-    private NumberAxis weeklyChartYAxis;
+    NumberAxis weeklyChartYAxis;
 
     private DatabaseConnection databaseConnection;
 
@@ -116,7 +116,7 @@ public class HelloController implements Initializable {
         loadWeeklyChart();
     }
 
-    private void loadTodaysTasks() {
+    void loadTodaysTasks() {
         LocalDate today = LocalDate.now();
         String query = "SELECT titre, description, estTermine FROM tache WHERE DATE(dateTermine) = ? AND utilisateur_id = ?";
         
@@ -145,7 +145,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    private void loadApplicationUsage() {
+    void loadApplicationUsage() {
         LocalDate today = LocalDate.now();
         String query = "SELECT nom_application, duree_utilisation FROM utilisationapplication WHERE DATE(date_utilisation) = ?";
         
@@ -380,14 +380,14 @@ public class HelloController implements Initializable {
         alert.showAndWait();
     }
 
-    private long convertToSeconds(String timeStr) {
+    long convertToSeconds(String timeStr) {
         String[] parts = timeStr.split(":");
         return Long.parseLong(parts[0]) * 3600 + 
                Long.parseLong(parts[1]) * 60 + 
                Long.parseLong(parts[2]);
     }
 
-    private String formatDuration(long seconds) {
+    String formatDuration(long seconds) {
         return String.format("%02d:%02d:%02d", 
             seconds / 3600, 
             (seconds % 3600) / 60, 

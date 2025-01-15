@@ -44,7 +44,7 @@ public class FocusSessionController {
         // Navigate to Set Limits
     }
     @FXML
-    private Label timerLabel;
+    Label timerLabel;
     @FXML
     private Spinner<Integer> focusSessionSpinner;
 
@@ -53,7 +53,7 @@ public class FocusSessionController {
 //    private int breakTimeRemaining;
 
     @FXML
-    private TextField focusTimeField;
+    TextField focusTimeField;
     @FXML
     private TextField totalFocusTimeField;
 
@@ -66,25 +66,25 @@ public class FocusSessionController {
     private int remainingSessionTime;// Remaining time in the full session
     private int focusTimeRemaining;
     private int breakTimeRemaining;
-    private boolean isFocusPhase;
-    private Timeline timeline;
-    private int phaseTime;
-    private boolean isPaused = false;
-    private boolean isStarted = false;
+    boolean isFocusPhase;
+    Timeline timeline;
+    int phaseTime;
+    boolean isPaused = false;
+    boolean isStarted = false;
     private int breakTime = 300;
     @FXML
-    private Spinner<Integer> totalFocusTimeSpinner;
+    Spinner<Integer> totalFocusTimeSpinner;
 
     @FXML
-    private Spinner<Integer> focusTimeSpinner;
+    Spinner<Integer> focusTimeSpinner;
 
     @FXML
-    private Spinner<Integer> breakTimeSpinner;
+    Spinner<Integer> breakTimeSpinner;
 
     @FXML
-    private Arc timerArc;
+    Arc timerArc;
     @FXML
-    private Label phaseLabel;
+    Label phaseLabel;
 
 
 
@@ -99,7 +99,7 @@ public class FocusSessionController {
 
 
     @FXML
-    private void startFocusSession() {
+    void startFocusSession() {
         try {
             if (!isStarted) {
                 int totalSessionMinutes = Integer.parseInt(totalFocusTimeSpinner.getValue().toString());
@@ -126,7 +126,7 @@ public class FocusSessionController {
         }
     }
 
-    private void handlePhaseChange(int focusTime, int breakTime) {
+    void handlePhaseChange(int focusTime, int breakTime) {
         if (isFocusPhase) {
             // Focus phase ended, starting break
             sendNotification("Break Started", "Time for a short break! Relax and recharge.");
@@ -253,7 +253,7 @@ public class FocusSessionController {
     }
 
 
-    private void updateTimerDisplay(int remainingTime) {
+    void updateTimerDisplay(int remainingTime) {
         // Mise à jour du texte du timer
         int minutes = remainingTime / 60;
         int seconds = remainingTime % 60;
@@ -274,14 +274,14 @@ public class FocusSessionController {
 
 
     @FXML
-    private void pauseFocusSession() {
+    void pauseFocusSession() {
         if (timeline != null && !isPaused) {
             timeline.pause();
             isPaused = true;
         }
     }
     @FXML
-    private void resetFocusSession() {
+    void resetFocusSession() {
         if (timeline != null) {
             timeline.stop();
         }
@@ -290,7 +290,7 @@ public class FocusSessionController {
         isStarted = false;
     }
 
-    private void showAlert(String title, String message) {
+    void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);

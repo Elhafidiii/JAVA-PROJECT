@@ -25,7 +25,7 @@ public class AppLimiteControler {
     private TableColumn<ApplicationTime, String> remainingTimeColumn;
 
     @FXML
-    private ComboBox<String> appComboBox;
+    ComboBox<String> appComboBox;
 
     @FXML
     private TextField hoursField;
@@ -36,7 +36,7 @@ public class AppLimiteControler {
 private TableColumn<ApplicationTime, ImageView> iconColumn;
 
     @FXML
-    private TableView<ApplicationTime> timeLimitsTable;
+    TableView<ApplicationTime> timeLimitsTable;
 
     // Store timers for each application
     private final Map<String, TimerData> appTimers = new HashMap<>();
@@ -81,7 +81,7 @@ private TableColumn<ApplicationTime, ImageView> iconColumn;
     }
 
     @FXML
-    private void handleAddLimit() {
+    public void handleAddLimit() {
         String app = appComboBox.getValue();
         String hoursText = hoursField.getText();
         String minutesText = minutesField.getText();
@@ -127,7 +127,7 @@ private TableColumn<ApplicationTime, ImageView> iconColumn;
         }
     }
 
-    private void startTimerForApp(String app, int hours, int minutes) {
+    void startTimerForApp(String app, int hours, int minutes) {
         AtomicInteger totalSeconds = new AtomicInteger((hours * 3600) + (minutes * 60));
 
         // Declare the timer variable outside of the timeline
@@ -226,7 +226,7 @@ private TableColumn<ApplicationTime, ImageView> iconColumn;
     }
 
     @FXML
-    private void handleCancelTimer() {
+    void handleCancelTimer() {
         ApplicationTime selectedApp = timeLimitsTable.getSelectionModel().getSelectedItem();
 
         if (selectedApp == null) {

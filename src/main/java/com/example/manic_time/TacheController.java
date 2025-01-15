@@ -12,19 +12,19 @@ import java.time.LocalDate;
 public class TacheController {
 
     @FXML
-    private DatePicker datePicker;
+    DatePicker datePicker;
 
     @FXML
-    private TextField tasktitleField;
+    TextField tasktitleField;
 
     @FXML
-    private TextField taskdescriptionField;
+    TextField taskdescriptionField;
 
     @FXML
     private Button addTaskButton;
 
     @FXML
-    private TableView<Tache> daytasktable; // Tableau des tâches d'aujourd'hui
+    TableView<Tache> daytasktable; // Tableau des tâches d'aujourd'hui
 
     @FXML
     private TableView<Tache> othertasktable; // Tableau des autres tâches
@@ -191,7 +191,7 @@ public class TacheController {
     }
 
     // Méthode pour charger les tâches dans les tableaux
-    private void loadTasks() {
+    void loadTasks() {
         LocalDate today = LocalDate.now();
 
         todayTasks.clear();

@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 public class TimerManager {
 
-    private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-    private static int remainingTime = 300; // Timer duration in seconds (e.g., 5 minutes)
+    static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    static int remainingTime = 300; // Timer duration in seconds (e.g., 5 minutes)
 
     public static void startAppTimer(String appName, int timeInSeconds) {
         executorService.scheduleAtFixedRate(() -> {
@@ -20,7 +20,7 @@ public class TimerManager {
         }, 0, 5, TimeUnit.SECONDS); // Check every 5 seconds
     }
 
-    private static void runTimer() {
+    static void runTimer() {
         executorService.scheduleAtFixedRate(() -> {
             if (remainingTime > 0) {
                 System.out.println("Remaining time: " + remainingTime + " seconds");
@@ -32,7 +32,7 @@ public class TimerManager {
         }, 0, 1, TimeUnit.SECONDS); // Timer ticks every second
     }
 
-    private static void showAlert(String title, String message) {
+    static void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
