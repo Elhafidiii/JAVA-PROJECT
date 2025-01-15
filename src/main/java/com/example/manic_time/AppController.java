@@ -31,7 +31,7 @@ public class AppController {
     @FXML
     private Label totalTimeLabel;
 
-    private ObservableList<ApplicationUsage> masterData = FXCollections.observableArrayList();
+    ObservableList<ApplicationUsage> masterData = FXCollections.observableArrayList();
 
     public void initialize() {
         // Associer les colonnes aux propriétés de la classe ApplicationUsage
@@ -70,7 +70,7 @@ public class AppController {
         totalTimeLabel.setText("Temps total : " + formatDuration(totalTimeInSeconds));
     }
 
-    private ObservableList<ApplicationUsage> fetchDataFromDatabase(LocalDate date) {
+    ObservableList<ApplicationUsage> fetchDataFromDatabase(LocalDate date) {
         ObservableList<ApplicationUsage> data = FXCollections.observableArrayList();
 
         String query = "SELECT nom_application, duree_utilisation FROM UtilisationApplication WHERE date_utilisation = ?";
@@ -93,7 +93,7 @@ public class AppController {
         return data;
     }
 
-    private long calculateTotalTime(ObservableList<ApplicationUsage> data) {
+    long calculateTotalTime(ObservableList<ApplicationUsage> data) {
         long totalSeconds = 0;
 
         for (ApplicationUsage usage : data) {
@@ -108,7 +108,7 @@ public class AppController {
         return totalSeconds;
     }
 
-    private String formatDuration(long totalSeconds) {
+    String formatDuration(long totalSeconds) {
         long hours = totalSeconds / 3600;
         long minutes = (totalSeconds % 3600) / 60;
         long seconds = totalSeconds % 60;

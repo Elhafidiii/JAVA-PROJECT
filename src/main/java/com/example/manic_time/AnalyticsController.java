@@ -25,7 +25,7 @@ import java.util.Map;
 public class AnalyticsController {
 
     @FXML
-    private BarChart<String, Number> usageChart;
+    BarChart<String, Number> usageChart;
 
     @FXML
     private CategoryAxis dayAxis;
@@ -34,16 +34,16 @@ public class AnalyticsController {
     private NumberAxis timeAxis;
 
     @FXML
-    private ChoiceBox<String> weekSelector;
+    ChoiceBox<String> weekSelector;
 
     @FXML
     private ProgressIndicator loadingIndicator;
 
     @FXML
-    private ScatterChart<String, Number> scatterChart;
+    ScatterChart<String, Number> scatterChart;
 
     @FXML
-    private LineChart<String, Number> lineChart;
+    LineChart<String, Number> lineChart;
 
     @FXML
     private Button barChartButton;
@@ -58,7 +58,7 @@ public class AnalyticsController {
 
     private Map<String, Map<String, Long>> cache = new HashMap<>();
 
-    private Map<String, String> dayTranslations = Map.of(
+    Map<String, String> dayTranslations = Map.of(
             "MONDAY", "Lundi",
             "TUESDAY", "Mardi",
             "WEDNESDAY", "Mercredi",
@@ -74,7 +74,7 @@ public class AnalyticsController {
         populateChart(getStartOfWeek(today));
     }
 
-    private LocalDate getStartOfWeek(LocalDate date) {
+    LocalDate getStartOfWeek(LocalDate date) {
         return date.with(java.time.DayOfWeek.MONDAY); // Fixer le début de la semaine au lundi
     }
 
@@ -82,7 +82,7 @@ public class AnalyticsController {
         return startOfWeek.plusDays(6); // Fin de la semaine
     }
 
-    private void populateWeekSelector() {
+    void populateWeekSelector() {
         ObservableList<String> weeks = FXCollections.observableArrayList();
 
         for (int i = 0; i < 4; i++) {
@@ -99,7 +99,7 @@ public class AnalyticsController {
     }
 
     @FXML
-    private void handleWeekSelection() {
+    void handleWeekSelection() {
         int selectedIndex = weekSelector.getSelectionModel().getSelectedIndex();
         if (selectedIndex == -1) return;
 
@@ -107,7 +107,7 @@ public class AnalyticsController {
         populateChart(startOfSelectedWeek);
     }
 
-    private void populateChart(LocalDate startOfWeek) {
+    void populateChart(LocalDate startOfWeek) {
         // Réinitialiser les graphiques
         usageChart.getData().clear();
         scatterChart.getData().clear();
@@ -212,7 +212,7 @@ public class AnalyticsController {
         }
     }
 
-    private Map<String, Long> fetchWeeklyData(LocalDate startOfWeek) {
+    Map<String, Long> fetchWeeklyData(LocalDate startOfWeek) {
         String weekKey = startOfWeek.toString();
         if (cache.containsKey(weekKey)) {
             return cache.get(weekKey);
@@ -249,7 +249,7 @@ public class AnalyticsController {
         return usageMap;
     }
 
-    private void showErrorAlert(String message) {
+    void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur");
         alert.setHeaderText("Une erreur s'est produite");
@@ -258,7 +258,7 @@ public class AnalyticsController {
     }
 
     @FXML
-    private void handleBarChartButton() {
+    void handleBarChartButton() {
         usageChart.setVisible(true);
         lineChart.setVisible(false);
         scatterChart.setVisible(false);
@@ -272,7 +272,7 @@ public class AnalyticsController {
     }
 
     @FXML
-    private void handleLineChartButton() {
+    void handleLineChartButton() {
         usageChart.setVisible(false);
         lineChart.setVisible(true);
         scatterChart.setVisible(false);
@@ -286,7 +286,7 @@ public class AnalyticsController {
     }
 
     @FXML
-    private void handleScatterChartButton() {
+    void handleScatterChartButton() {
         usageChart.setVisible(false);
         lineChart.setVisible(false);
         scatterChart.setVisible(true);
