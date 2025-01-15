@@ -1,10 +1,30 @@
-version: '3.4'
-
+version: "3.8"
 services:
-  javaproject:
-    image: javaproject
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
     ports:
-      - 8000:8000
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  javafx-app:
+    build:
+      context: ./docker
+      dockerfile: docker/Dockerfile
+    container_name: javafx-app
+    environment:
+      DISPLAY: ${DISPLAY}
+    depends_on:
+      - db
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    command: ["java", "-jar", "/app/app.jar"]
+
+volumes:
+  mysql-data:

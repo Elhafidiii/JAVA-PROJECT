@@ -32,17 +32,17 @@
 
                             <HBox alignment="CENTER" spacing="20">
                                 <Label style="-fx-font-size: 14px;                                              -fx-text-fill: #424242;" text="Total Duration:" />
-                                <Spinner fx:id="totalFocusTimeSpinner" style="-fx-background-color: white; -fx-border-color: linear-gradient(to bottom right, #2193b0, #6dd5ed); -fx-border-radius: 8;" />
+                                <Spinner fx:id="totalFocusTimeSpinner" editable="true" style="-fx-background-color: white; -fx-border-color: linear-gradient(to bottom right, #2193b0, #6dd5ed); -fx-border-radius: 8;" />
                             </HBox>
 
                             <HBox alignment="CENTER" spacing="20">
                                 <Label style="-fx-font-size: 14px;                                              -fx-text-fill: #424242;" text="Focus Duration:" />
-                                <Spinner fx:id="focusTimeSpinner" style="-fx-background-color: white; -fx-border-color: linear-gradient(to bottom right, #2193b0, #6dd5ed); -fx-border-radius: 8;" />
+                                <Spinner fx:id="focusTimeSpinner" editable="true" style="-fx-background-color: white; -fx-border-color: linear-gradient(to bottom right, #2193b0, #6dd5ed); -fx-border-radius: 8;" />
                             </HBox>
 
                             <HBox alignment="CENTER" spacing="20">
                                 <Label style="-fx-font-size: 14px;                                              -fx-text-fill: #424242;" text="Break Duration:" />
-                                <Spinner fx:id="breakTimeSpinner" style="-fx-background-color: white; -fx-border-color: linear-gradient(to bottom right, #2193b0, #6dd5ed); -fx-border-radius: 8;" />
+                                <Spinner fx:id="breakTimeSpinner" editable="true" style="-fx-background-color: white; -fx-border-color: linear-gradient(to bottom right, #2193b0, #6dd5ed); -fx-border-radius: 8;" />
                             </HBox>
                         </VBox>
 
