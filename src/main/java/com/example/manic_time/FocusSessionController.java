@@ -62,24 +62,6 @@ public class FocusSessionController {
     @FXML
     private BorderPane mainPane; // L'élément BorderPane de votre vue principale
 
-    //    @FXML
-//    private void startFocusSession() {
-//        try {
-//            int focusTime = Integer.parseInt(focusTimeField.getText());
-//            int breakTime = Integer.parseInt(breakTimeField.getText());
-//
-//
-//            if (focusTime <= 0 || breakTime <= 0) {
-//                showAlert("Invalid Input", "Please enter valid positive values for time.");
-//                return;
-//            }
-//
-//            // Your logic to start focus session, e.g. set timers, start countdown, etc.
-//            System.out.println("Focus Time: " + focusTime + " minutes, Break Time: " + breakTime + " minutes");
-//        } catch (NumberFormatException e) {
-//            showAlert("Invalid Input", "Please enter valid numbers for time.");
-//        }
-//    }
     private int totalFocusTime; // Total focus time in seconds
     private int remainingSessionTime;// Remaining time in the full session
     private int focusTimeRemaining;
@@ -104,12 +86,15 @@ public class FocusSessionController {
     @FXML
     Label phaseLabel;
 
+
+
     @FXML
     public void initialize() {
         // Initialize Spinners with value factories
         totalFocusTimeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, 5));
         focusTimeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 300, 0));
         breakTimeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 60, 0));
+
     }
 
 
