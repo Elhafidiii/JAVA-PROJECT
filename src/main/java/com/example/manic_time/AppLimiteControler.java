@@ -9,264 +9,185 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import com.example.manic_time.AppTimeLimit;
+import javafx.beans.property.SimpleStringProperty;
 
 public class AppLimiteControler {
 
     @FXML
-    private TableColumn<ApplicationTime, String> appNameColumn;
+    private TableView<AppTimeLimit> timeLimitsTable;
 
     @FXML
-    private TableColumn<ApplicationTime, String> timeLimitColumn;
-
-    @FXML
-    private TableColumn<ApplicationTime, String> remainingTimeColumn;
-
-    @FXML
-    ComboBox<String> appComboBox;
+    private ComboBox<String> appComboBox;
 
     @FXML
     private TextField hoursField;
 
     @FXML
     private TextField minutesField;
-    @FXML
-private TableColumn<ApplicationTime, ImageView> iconColumn;
 
     @FXML
-    TableView<ApplicationTime> timeLimitsTable;
+    private TableColumn<AppTimeLimit, String> appNameColumn;
 
-    // Store timers for each application
-    private final Map<String, TimerData> appTimers = new HashMap<>();
+    @FXML
+    private TableColumn<AppTimeLimit, String> timeLimitColumn;
+
+    @FXML
+    private TableColumn<AppTimeLimit, String> remainingTimeColumn;
+
+    private Map<String, Timeline> appTimers = new HashMap<>();
 
     @FXML
     public void initialize() {
-        // Configuration de la colonne des icônes
-        iconColumn.setCellFactory(column -> {
-            return new TableCell<ApplicationTime, ImageView>() {
-                @Override
-                protected void updateItem(ImageView item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setGraphic(null);
-                    } else {
-                        setGraphic(item);
-                    }
-                }
-            };
-        });
-        iconColumn.setCellValueFactory(cellData -> cellData.getValue().appIconProperty());
+        // Remplir le ComboBox avec toutes les applications installées
+        List<String> installedApps = AppFetcher.getInstalledApplications();
+        appComboBox.getItems().addAll(installedApps);
 
-        // Set up the table columns
-        appNameColumn.setCellValueFactory(cellData -> cellData.getValue().appNameProperty());
-        timeLimitColumn.setCellValueFactory(cellData -> cellData.getValue().timeLimitProperty());
-        remainingTimeColumn.setCellValueFactory(cellData -> cellData.getValue().remainingTimeProperty());
+        // Configuration correcte des colonnes
+        appNameColumn.setCellValueFactory(new PropertyValueFactory<>("appName"));
+        timeLimitColumn.setCellValueFactory(new PropertyValueFactory<>("timeLimit"));
+        remainingTimeColumn.setCellValueFactory(new PropertyValueFactory<>("remainingTime"));
 
-        try {
-            // Fetch installed applications
-            List<String> installedApps = AppFetcher.getInstalledApplications();
-
-            if (installedApps == null || installedApps.isEmpty()) {
-                System.err.println("No installed applications found.");
-            } else {
-                System.out.println("Installed Applications: " + installedApps);
-                appComboBox.getItems().addAll(installedApps);
+        // Validation des champs de temps
+        hoursField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.matches("\\d*")) {
+                hoursField.setText(newVal.replaceAll("[^\\d]", ""));
             }
-        } catch (Exception e) {
-            System.err.println("Error fetching installed applications: " + e.getMessage());
-            e.printStackTrace();
-        }
+            if (!newVal.isEmpty() && Integer.parseInt(newVal) > 23) {
+                hoursField.setText("23");
+            }
+        });
+
+        minutesField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.matches("\\d*")) {
+                minutesField.setText(newVal.replaceAll("[^\\d]", ""));
+            }
+            if (!newVal.isEmpty() && Integer.parseInt(newVal) > 59) {
+                minutesField.setText("59");
+            }
+        });
     }
 
     @FXML
-    public void handleAddLimit() {
-        String app = appComboBox.getValue();
-        String hoursText = hoursField.getText();
-        String minutesText = minutesField.getText();
-
-        if (app == null || hoursText.isEmpty() || minutesText.isEmpty()) {
-            showAlert("Error", "Please select an application and enter a valid time limit.");
+    private void handleAddLimit() {
+        String selectedApp = appComboBox.getValue();
+        if (selectedApp == null || hoursField.getText().isEmpty() && minutesField.getText().isEmpty()) {
+            showAlert("Erreur", "Veuillez sélectionner une application et entrer une durée.");
             return;
         }
 
         try {
-            int hours = Integer.parseInt(hoursText);
-            int minutes = Integer.parseInt(minutesText);
-
-            if (hours < 0 || minutes < 0 || minutes >= 60) {
-                showAlert("Error", "Invalid time format. Hours must be >= 0 and minutes must be between 0 and 59.");
-                return;
-            }
-
-            String timeLimit = String.format("%02d:%02d", hours, minutes);
-            String remainingTime = timeLimit;
-
-            // Prevent duplicate timers for the same app
-            if (appTimers.containsKey(app)) {
-                showAlert("Error", "A timer already exists for this application.");
-                return;
-            }
-
-            // Créer une nouvelle entrée avec l'icône
-            ApplicationTime newEntry = new ApplicationTime(app, timeLimit, remainingTime);
+            int hours = hoursField.getText().isEmpty() ? 0 : Integer.parseInt(hoursField.getText());
+            int minutes = minutesField.getText().isEmpty() ? 0 : Integer.parseInt(minutesField.getText());
+            int totalSeconds = (hours * 3600) + (minutes * 60);
             
-            // Forcer la mise à jour de l'interface
-            Platform.runLater(() -> {
-                timeLimitsTable.getItems().add(newEntry);
-                timeLimitsTable.refresh();
-            });
+            if (totalSeconds == 0) {
+                showAlert("Erreur", "La durée doit être supérieure à 0.");
+                return;
+            }
 
-            // Set up a timer for this application
-            startTimerForApp(app, hours, minutes);
-
-            showAlert("Success", "Time limit added for " + app + ": " + timeLimit);
+            startTimer(selectedApp, totalSeconds);
+            
+            // Vider les champs
+            appComboBox.setValue(null);
+            hoursField.clear();
+            minutesField.clear();
+            
         } catch (NumberFormatException e) {
-            showAlert("Error", "Please enter valid numeric values for hours and minutes.");
+            showAlert("Erreur", "Veuillez entrer des nombres valides.");
         }
     }
 
-    void startTimerForApp(String app, int hours, int minutes) {
-        AtomicInteger totalSeconds = new AtomicInteger((hours * 3600) + (minutes * 60));
-
-        // Declare the timer variable outside of the timeline
+    private void startTimer(String app, int seconds) {
+        AtomicInteger totalSeconds = new AtomicInteger(seconds);
         Timeline timer = new Timeline();
-        Timeline appMonitorTimeline = new Timeline(); // Declare the app monitoring Timeline
+        timer.setCycleCount(Timeline.INDEFINITE);
 
-        // Initialize the Timer Timeline with a KeyFrame
-        timer.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
-            int remaining = totalSeconds.decrementAndGet();
-            System.out.println("Remaining time for " + app + ": " + remaining);  // Debugging line
-
-            if (remaining <= 0) {
-                // Stop the timer when it reaches zero
-                appTimers.remove(app);
-                showAlert("Time's Up!", "Time limit for " + app + " has expired!");
-                updateRemainingTime(app, 0);  // Update UI to show 00:00
-                timer.stop();  // Directly stop the timer
-                stopAppMonitoring(appMonitorTimeline);  // Stop the app status monitoring
-            } else {
-                updateRemainingTime(app, remaining);
-            }
-        }));
-
-        timer.setCycleCount(Timeline.INDEFINITE); // Set to indefinite to keep the timer running
-
-        // Monitor application status
-        SimpleBooleanProperty isAppOpen = monitorApplicationStatus(app, appMonitorTimeline);
-        isAppOpen.addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                System.out.println("App " + app + " is open. Starting timer.");  // Debugging line
-                timer.play();
-            } else {
-                System.out.println("App " + app + " is closed. Pausing timer.");  // Debugging line
-                timer.pause();  // Pausing the timer directly
-            }
-        });
-
-        // Start the timer if the app is already open
-        if (isAppOpen.get()) {
-            timer.play();
-        }
-
-        // Store the timer and associated data
-        appTimers.put(app, new TimerData(timer, totalSeconds, isAppOpen, appMonitorTimeline));
-    }
-
-    private void stopAppMonitoring(Timeline appMonitorTimeline) {
-        if (appMonitorTimeline != null) {
-            appMonitorTimeline.stop();  // Stop the app monitoring Timeline
-            System.out.println("Stopped app status monitoring.");
-        }
-    }
-
-    private SimpleBooleanProperty monitorApplicationStatus(String app, Timeline appMonitorTimeline) {
-        SimpleBooleanProperty isAppOpen = new SimpleBooleanProperty(false);
-
-        // Use a Timeline to periodically check if the app is running
-        appMonitorTimeline.getKeyFrames().add(new KeyFrame(Duration.seconds(5), event -> {
-            boolean isRunning = AppFetcher.isAppRunning(app); // Check if the app is running
-            isAppOpen.set(isRunning);
-            System.out.println("App " + app + " is running: " + isRunning);  // Debugging line
-        }));
-
-        appMonitorTimeline.setCycleCount(Timeline.INDEFINITE);
-        appMonitorTimeline.play(); // Start the monitoring Timeline
-
-        return isAppOpen;
-    }
-
-    private void updateRemainingTime(String app, int remainingSeconds) {
-        String remainingTime = String.format("%02d:%02d", remainingSeconds / 3600, (remainingSeconds % 3600) / 60);
-        for (ApplicationTime entry : timeLimitsTable.getItems()) {
-            if (entry.getAppName().equals(app)) {
-                entry.setRemainingTime(remainingTime); // Ensure this updates the UI
-                break;
-            }
-        }
-    }
-
-
-    private void showAlert(String title, String message) {
+        AppTimeLimit appTimeLimit = new AppTimeLimit(
+            app,
+            formatTime(seconds),
+            formatTime(seconds)
+        );
+        
         Platform.runLater(() -> {
-            System.out.println("Showing alert: " + message);  // Debugging line
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle(title);
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.showAndWait();
+            timeLimitsTable.getItems().add(appTimeLimit);
         });
+
+        timer.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
+            if (AppFetcher.isAppRunning(app)) {
+                int remaining = totalSeconds.decrementAndGet();
+                
+                if (remaining <= 0) {
+                    timer.stop();
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Temps écoulé");
+                        alert.setHeaderText(null);
+                        alert.setContentText("La durée de travail dans " + app + " est terminée. Que souhaitez-vous faire ?");
+
+                        ButtonType quitterBtn = new ButtonType("Quitter");
+                        ButtonType ajouterTempsBtn = new ButtonType("Ajouter 5 minutes");
+                        ButtonType resterBtn = new ButtonType("Rester");
+
+                        alert.getButtonTypes().setAll(quitterBtn, ajouterTempsBtn, resterBtn);
+
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.isPresent()) {
+                            if (result.get() == quitterBtn) {
+                                AppFetcher.closeApp(app);
+                                timeLimitsTable.getItems().remove(appTimeLimit);
+                            } else if (result.get() == ajouterTempsBtn) {
+                                totalSeconds.set(5 * 60);
+                                timer.play();
+                            } else if (result.get() == resterBtn) {
+                                timeLimitsTable.getItems().remove(appTimeLimit);
+                            }
+                        }
+                    });
+                } else {
+                    Platform.runLater(() -> {
+                        appTimeLimit.setRemainingTime(formatTime(remaining));
+                        timeLimitsTable.refresh();
+                    });
+                }
+            }
+        }));
+
+        appTimers.put(app, timer);
+        timer.play();
+    }
+
+    private String formatTime(int seconds) {
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        return String.format("%02d:%02d", hours, minutes);
     }
 
     @FXML
     private void handleSaveChanges() {
-        // Save changes to time limits (can include saving to a file or database)
-        showAlert("Save Changes", "All changes have been saved successfully.");
+        // Implémenter la sauvegarde si nécessaire
     }
 
     @FXML
-    void handleCancelTimer() {
-        ApplicationTime selectedApp = timeLimitsTable.getSelectionModel().getSelectedItem();
-
-        if (selectedApp == null) {
-            showAlert("Error", "Please select an application to cancel the timer.");
-            return;
-        }
-
-        String appName = selectedApp.getAppName();
-
-        if (appTimers.containsKey(appName)) {
-            TimerData timerData = appTimers.remove(appName);
-            timerData.getTimer().stop();
-            timeLimitsTable.getItems().remove(selectedApp);
-            showAlert("Cancel Timer", "Timer for " + appName + " has been canceled.");
-        } else {
-            showAlert("Error", "No active timer found for the selected application.");
+    private void handleCancelTimer() {
+        AppTimeLimit selected = timeLimitsTable.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            Timeline timer = appTimers.get(selected.getAppName());
+            if (timer != null) {
+                timer.stop();
+                appTimers.remove(selected.getAppName());
+            }
+            timeLimitsTable.getItems().remove(selected);
         }
     }
 
-    private static class TimerData {
-        private final Timeline timer;
-        private final AtomicInteger remainingTime;
-        private final SimpleBooleanProperty isAppOpen;
-
-        public TimerData(Timeline timer, AtomicInteger remainingTime, SimpleBooleanProperty isAppOpen, Timeline appMonitorTimeline) {
-            this.timer = timer;
-            this.remainingTime = remainingTime;
-            this.isAppOpen = isAppOpen;
-        }
-
-        public Timeline getTimer() {
-            return timer;
-        }
-
-        public AtomicInteger getRemainingTime() {
-            return remainingTime;
-        }
-
-        public SimpleBooleanProperty getIsAppOpen() {
-            return isAppOpen;
-        }
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

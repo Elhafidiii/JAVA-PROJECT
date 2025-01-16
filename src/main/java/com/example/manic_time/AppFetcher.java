@@ -3,6 +3,7 @@ package com.example.manic_time;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,18 +18,29 @@ public class AppFetcher {
     public static List<String> getInstalledApplications() {
         List<String> apps = new ArrayList<>();
         try {
-            // Run PowerShell command to query installed apps from the registry
-            String command = "powershell.exe Get-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*' | Select-Object -ExpandProperty DisplayName";
-            Process process = Runtime.getRuntime().exec(command);
-            Scanner scanner = new Scanner(process.getInputStream());
+            // Récupérer les applications depuis différents emplacements du registre Windows
+            String[] commands = {
+                "powershell.exe Get-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*' | Select-Object -ExpandProperty DisplayName",
+                "powershell.exe Get-ItemProperty -Path 'HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*' | Select-Object -ExpandProperty DisplayName",
+                "powershell.exe Get-Process | Select-Object -ExpandProperty ProcessName"
+            };
 
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                if (!line.trim().isEmpty()) {
-                    apps.add(line.trim());
+            for (String command : commands) {
+                Process process = Runtime.getRuntime().exec(command);
+                Scanner scanner = new Scanner(process.getInputStream());
+
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine().trim();
+                    if (!line.isEmpty() && !apps.contains(line)) {
+                        apps.add(line);
+                    }
                 }
+                scanner.close();
             }
-            scanner.close();
+
+            // Trier la liste par ordre alphabétique
+            Collections.sort(apps);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,6 +78,31 @@ public class AppFetcher {
             e.printStackTrace();
         }
         return false;
+    }
+
+
+
+    public static void closeApp(String appName) {
+        try {
+            // Pour Windows
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                ProcessBuilder processBuilder = new ProcessBuilder("taskkill", "/F", "/IM", appName + ".exe");
+                processBuilder.start();
+            } 
+            // Pour Linux
+            else if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+                ProcessBuilder processBuilder = new ProcessBuilder("pkill", "-f", appName);
+                processBuilder.start();
+            }
+            // Pour MacOS
+            else if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+                ProcessBuilder processBuilder = new ProcessBuilder("pkill", "-f", appName);
+                processBuilder.start();
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la fermeture de l'application : " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 
